@@ -1,0 +1,95 @@
+# CI Workflow for Actionators
+# This workflow performs automated testing, code coverage validation, and build verification
+
+name: CI
+
+# Trigger the workflow on push to main branch and on all pull requests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+# Define environment variables used across all jobs
+env:
+  DOTNET_VERSION: '9.0.x'
+  COVERAGE_THRESHOLD: 30
+
+jobs:
+  build-and-test:
+    name: Build, Test & Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Check out the repository code
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    # Step 2: Setup .NET SDK
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    # Step 3: Display .NET version for verification
+    - name: Display .NET version
+      run: dotnet --version
+    
+    # Step 4: Restore NuGet packages
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    # Step 5: Build the solution in Release configuration
+    - name: Build solution
+      run: dotnet build --configuration Release --no-restore
+    
+    # Step 6: Run unit tests with code coverage collection
+    - name: Run unit tests
+      run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./TestResults
+    
+    # Step 7: Install ReportGenerator tool for code coverage analysis
+    - name: Install ReportGenerator
+      run: dotnet tool install --global dotnet-reportgenerator-globaltool
+    
+    # Step 8: Generate code coverage report
+    - name: Generate coverage report
+      run: reportgenerator -reports:"./TestResults/*/coverage.cobertura.xml" -targetdir:"./CoverageReport" -reporttypes:"Html;TextSummary"
+    
+    # Step 9: Display code coverage summary in the console
+    - name: Display coverage summary
+      run: cat ./CoverageReport/Summary.txt
+    
+    # Step 10: Validate code coverage meets minimum threshold
+    - name: Validate coverage threshold
+      run: |
+        # Extract line coverage percentage from the coverage report
+        COVERAGE=$(grep -oP 'Line coverage: \K[0-9.]+' ./CoverageReport/Summary.txt || echo "0")
+        echo "Current code coverage: ${COVERAGE}%"
+        echo "Required minimum coverage: ${COVERAGE_THRESHOLD}%"
+        
+        # Compare coverage with threshold using awk for floating point comparison
+        if awk "BEGIN {exit !($COVERAGE >= $COVERAGE_THRESHOLD)}"; then
+          echo "✓ Coverage validation passed!"
+        else
+          echo "✗ Coverage validation failed!"
+          echo "Current coverage (${COVERAGE}%) is below the minimum threshold (${COVERAGE_THRESHOLD}%)"
+          exit 1
+        fi
+    
+    # Step 11: Upload code coverage report as an artifact
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: coverage-report
+        path: ./CoverageReport
+        retention-days: 30
+    
+    # Step 12: Upload test results as an artifact
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: ./TestResults
+        retention-days: 30

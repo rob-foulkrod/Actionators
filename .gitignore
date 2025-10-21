@@ -26,6 +26,10 @@ bld/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
+# Code Coverage
+CoverageReport/
+TestResults/
+
 # .NET Core
 project.lock.json
 project.fragment.lock.json
