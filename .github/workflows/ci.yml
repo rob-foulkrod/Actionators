@@ -79,7 +79,41 @@ jobs:
           exit 1
         fi
     
-    # Step 11: Upload code coverage report as an artifact
+    # Step 11: Create production build artifacts
+    - name: Publish web application
+      run: |
+        dotnet publish ./Actionators.Web/Actionators.Web.csproj \
+          --configuration Release \
+          --no-build \
+          --output ./publish \
+          --self-contained false \
+          --verbosity normal
+    
+    # Step 12: Create deployment package
+    - name: Create deployment package
+      run: |
+        # Create a deployment info file
+        echo "Build Information:" > ./publish/deployment-info.txt
+        echo "Branch: ${{ github.ref_name }}" >> ./publish/deployment-info.txt
+        echo "Commit SHA: ${{ github.sha }}" >> ./publish/deployment-info.txt
+        echo "Build Number: ${{ github.run_number }}" >> ./publish/deployment-info.txt
+        echo "Build Date: $(date -u)" >> ./publish/deployment-info.txt
+        echo "Workflow: ${{ github.workflow }}" >> ./publish/deployment-info.txt
+        
+        # Display package contents
+        echo "Deployment package contents:"
+        ls -la ./publish/
+    
+    # Step 13: Upload production build artifacts
+    - name: Upload production artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: production-build-${{ github.run_number }}
+        path: ./publish
+        retention-days: 90
+        compression-level: 6
+    
+    # Step 14: Upload code coverage report as an artifact
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       if: always()
@@ -88,7 +122,7 @@ jobs:
         path: ./CoverageReport
         retention-days: 30
     
-    # Step 12: Upload test results as an artifact
+    # Step 15: Upload test results as an artifact
     - name: Upload test results
       uses: actions/upload-artifact@v4
       if: always()
