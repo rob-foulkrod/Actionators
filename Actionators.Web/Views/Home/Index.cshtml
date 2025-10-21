@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold">Welcome to Actionators</h1>
+        <p class="lead">Building Modern Web Applications with ASP.NET Core 9</p>
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Contact" class="btn btn-light btn-hero me-3">
+                <i class="bi bi-envelope-fill me-2"></i>Get in Touch
+            </a>
+            <a href="#features" class="btn btn-outline-light btn-hero">
+                <i class="bi bi-arrow-down-circle me-2"></i>Learn More
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<section id="features" class="section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col">
+                <h2 class="display-5 fw-bold">Our Key Features</h2>
+                <p class="lead text-muted">Everything you need to build amazing web applications</p>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-lightning-charge-fill"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Fast Performance</h3>
+                        <p class="card-text text-muted">
+                            Built on ASP.NET Core 9, delivering blazing fast response times and excellent scalability for your applications.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-shield-fill-check"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Secure by Default</h3>
+                        <p class="card-text text-muted">
+                            Enterprise-grade security features including authentication, authorization, and data protection built right in.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-phone-fill"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Responsive Design</h3>
+                        <p class="card-text text-muted">
+                            Modern, mobile-first design with Bootstrap 5 ensures your application looks great on any device.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-code-slash"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Clean Architecture</h3>
+                        <p class="card-text text-muted">
+                            Built with repository pattern and dependency injection for maintainable, testable, and scalable code.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-cloud-arrow-up-fill"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Cloud Ready</h3>
+                        <p class="card-text text-muted">
+                            Deploy to Azure, AWS, or any cloud platform with ease. Containerization support with Docker included.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="feature-icon">
+                            <i class="bi bi-gear-fill"></i>
+                        </div>
+                        <h3 class="card-title h4 fw-bold">Easy Configuration</h3>
+                        <p class="card-text text-muted">
+                            Flexible configuration system supporting JSON, environment variables, and user secrets out of the box.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section bg-light">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Ready to Get Started?</h2>
+        <p class="lead text-muted mb-4">Contact us today and let's build something amazing together!</p>
+        <a asp-controller="Home" asp-action="Contact" class="btn btn-primary btn-lg btn-hero">
+            <i class="bi bi-envelope-fill me-2"></i>Contact Us Now
+        </a>
+    </div>
+</section>

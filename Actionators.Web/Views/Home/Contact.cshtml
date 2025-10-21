@@ -1,0 +1,98 @@
+@model Actionators.Web.Models.ContactMessage
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="contact-form">
+                <h2 class="text-center fw-bold">
+                    <i class="bi bi-envelope-fill"></i> Get in Touch
+                </h2>
+                <p class="text-center text-muted mb-4">
+                    Have a question or want to work together? We'd love to hear from you!
+                </p>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <form asp-action="Contact" method="post" class="needs-validation" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                    
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label fw-semibold">
+                            <i class="bi bi-person"></i> Full Name
+                        </label>
+                        <input asp-for="Name" class="form-control form-control-lg" placeholder="John Doe" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-semibold">
+                            <i class="bi bi-envelope"></i> Email Address
+                        </label>
+                        <input asp-for="Email" class="form-control form-control-lg" placeholder="john.doe@example.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Subject" class="form-label fw-semibold">
+                            <i class="bi bi-chat-left-text"></i> Subject
+                        </label>
+                        <input asp-for="Subject" class="form-control form-control-lg" placeholder="How can we help you?" />
+                        <span asp-validation-for="Subject" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Message" class="form-label fw-semibold">
+                            <i class="bi bi-pencil-square"></i> Message
+                        </label>
+                        <textarea asp-for="Message" class="form-control" rows="6" placeholder="Tell us more about your inquiry..."></textarea>
+                        <span asp-validation-for="Message" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg btn-hero">
+                            <i class="bi bi-send-fill me-2"></i>Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row mt-5 text-center">
+                <div class="col-md-4 mb-3">
+                    <div class="p-3">
+                        <i class="bi bi-geo-alt-fill text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="mt-3 fw-bold">Address</h5>
+                        <p class="text-muted">123 Business St.<br>Tech City, TC 12345</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="p-3">
+                        <i class="bi bi-telephone-fill text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="mt-3 fw-bold">Phone</h5>
+                        <p class="text-muted">(555) 123-4567</p>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="p-3">
+                        <i class="bi bi-envelope-fill text-primary" style="font-size: 2rem;"></i>
+                        <h5 class="mt-3 fw-bold">Email</h5>
+                        <p class="text-muted">info@actionators.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
