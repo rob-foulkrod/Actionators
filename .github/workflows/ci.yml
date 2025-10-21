@@ -9,7 +9,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  
+  workflow_dispatch:
 
+  
 # Define environment variables used across all jobs
 env:
   DOTNET_VERSION: '9.0.x'
